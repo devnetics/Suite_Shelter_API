@@ -18,10 +18,15 @@ exports.reportPersons = (req, res, cb) => {
                         risk_level: user_report.risk_level,
                         notes: user_report.notes
                     });     
+                    
+                    // Save for analytics/heatmap data.
+                    report.save();
                     let new_hl_user = new User({
+                        'email': hl_user.email,
                         profile: {
                             'name': hl_user.name,
-                            '_id': hl_user._id                  
+                            '_id': hl_user._id,                            
+                            'phone': hl_user.phone             
                         },
                         reports: [report]
                     });                    
@@ -36,6 +41,7 @@ exports.reportPersons = (req, res, cb) => {
                         latitude: user_report.latitude,
                         longitude: user_report.longitude
                     });
+                    report.save();
                     found_user.reports.push(report);
                     found_user.save((err) => {
                         if (err) {
@@ -52,6 +58,7 @@ exports.reportPersons = (req, res, cb) => {
             risk_level: user_report.risk_level,
             notes: user_report.notes
         });    
+        report.save();
         let hl_user = new User({reports: [report]});
         hl_user.save((err) => {
             if (err) {
@@ -63,8 +70,9 @@ exports.reportPersons = (req, res, cb) => {
 }
 
 exports.searchUsers = (req, res, cb) => {
-    let name_query = req.params["name"];
-    User.find({name: name_query})
+    let name_query = req.query.name;
+    console.log(name_query);
+    User.find({'profile.name': name_query})
         .exec((err_query, found_user) => {
             if (err_query) {
                 return cb(err_query)

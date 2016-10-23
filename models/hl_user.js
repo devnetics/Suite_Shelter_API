@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const user_report_schema = require('./report_schema').schema;
 
 const hl_user_schema = new mongoose.Schema({
-  email: { type: String},
+  email: { type: String},  
   password: String,
   password_reset_token: String,
   password_reset_expires: Date,
@@ -12,6 +12,7 @@ const hl_user_schema = new mongoose.Schema({
   profile: {
     name: String,
     gender: String,
+    phone: String,    
     location: String,
     website: String,
     picture: String

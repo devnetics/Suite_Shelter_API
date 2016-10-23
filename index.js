@@ -10,6 +10,7 @@ const mongoose = require('mongoose');
 // controllers
 const auth = require('./src/auth');
 const reports = require('./src/reports');
+const heatmap = require('./src/heatmap');
 
 
 // Load env
@@ -44,6 +45,7 @@ application.post('/login', auth.login);
 application.post('/signup', auth.signup);
 application.post('/reports', reports.reportPersons);
 application.get('/hl_users', reports.searchUsers);
+application.get('/heatmap', heatmap.getHeatMap);
 
 
 // if (process.env.NODE_ENV = 'production') {
